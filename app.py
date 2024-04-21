@@ -8,6 +8,16 @@ from keras.models import Sequential, load_model, Model
 from keras.layers import Input, LSTM, Dense, Dropout, Bidirectional, TimeDistributed, Attention, BatchNormalization
 from keras.regularizers import l2
 import tensorflow as tf
+import pathlib
+import textwrap
+import google.generativeai as genai
+from google.colab import userdata
+from IPython.display import display, Markdown
+from google.colab import userdata
+
+api_key = userdata.get('GEMINI_API_KEY')
+genai.configure(api_key=api_key)
+model = genai.GenerativeModel('gemini-pro')
 
 def get_model1():
     input_layer = Input(shape=[1, 600])
@@ -82,6 +92,9 @@ def main():
     if st.button("Predict Score"):
         predicted_score = predict_score(user_essay)
         st.write(f"The predicted score for the essay is: {predicted_score}")
-
+        prompt = f"Justify rating the essay {user_essay} as {predicted_score} out of 10 and discuss its highs and lows and the justification behind marking it as such."
+        response = model.generate_content(prompt)
+        analysis_text = response.text
+        st.write(f"Explanation:"{analysis_text})
 if __name__ == "__main__":
     main()
