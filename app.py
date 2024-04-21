@@ -50,12 +50,12 @@ def get_model2():
     return model
 
 lstm_model1 = get_model1()
-lstm_model1.load_weights("essay_rank_lstm_1.keras")
+lstm_model1.load_weights("/content/essay_rank_lstm_1.keras")
 
 lstm_model2 = get_model2()
-lstm_model2.load_weights("essay_rank_lstm_2.keras")
+lstm_model2.load_weights("/content/essay_rank_lstm_2.keras")
 
-w2v_path = '/kaggle/working/word2vecmodel.bin'
+w2v_path = '/content/word2vecmodel.bin'
 word2vec_model = KeyedVectors.load(w2v_path, mmap='r')
 
 def essay_to_vector(essay, model):
@@ -95,6 +95,7 @@ def main():
         prompt = f"Justify rating the essay {user_essay} as {predicted_score} out of 10 and discuss its highs and lows and the justification behind marking it as such."
         response = model.generate_content(prompt)
         analysis_text = response.text
-        st.write(f"Explanation:"{analysis_text})
+        st.write(f"Explanation: {analysis_text}") 
+
 if __name__ == "__main__":
     main()
