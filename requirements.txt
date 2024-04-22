@@ -1,1 +1,5 @@
 google-generativeai
+streamlit
+gensim
+tensorflow
+keras
