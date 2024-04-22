@@ -92,7 +92,7 @@ def reshape_for_lstm(vector):
 def predict_score(essay):
     vector = essay_to_vector(essay, word2vec_model)
     vector = reshape_for_lstm(vector)
-    prediction = lstm_model2.predict(vector)
+    prediction = (lstm_model1.predict(vector)+lstm_model2.predict(vector))/2
     score = np.argmax(prediction)
     bias = 2
     adjusted_score = score + bias
