@@ -8,3 +8,4 @@ pytesseract
 scipy==1.10.1
 nltk
 tesseract-ocr
+leptonica
