@@ -3,6 +3,6 @@ streamlit
 gensim
 tensorflow
 keras
-PIL
+Pillow
 pytesseract
 
