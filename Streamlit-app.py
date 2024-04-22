@@ -24,7 +24,7 @@ nltk.download('stopwords')
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 
-api_key = 'GEMINI_API_KEY'  
+api_key = st.secrets["GEMINI_API_KEY"] 
 genai.configure(api_key=api_key)
 model = genai.GenerativeModel('gemini-pro')
 
