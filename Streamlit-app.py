@@ -67,10 +67,6 @@ lstm_model2.load_weights("essay_rank_lstm_2.keras")
 w2v_path = 'word2vecmodel.bin'
 word2vec_model = KeyedVectors.load(w2v_path, mmap='r')
 
-def perform_ocr(image):
-    extracted_text = pytesseract.image_to_string(image)
-    return extracted_text
-
 def essay_to_vector(essay, model):
     stop_words = set(stopwords.words('english'))
     essay = re.sub("[^A-Za-z]", " ", essay).lower()
@@ -147,9 +143,6 @@ def main():
         """, unsafe_allow_html=True)
 
     st.markdown("## Enter your essay below to predict its score.")
-
-    uploaded_file = st.file_uploader("Upload an image", type=["png", "jpg", "jpeg"])
-    user_essay = st.text_area("Essay:", height=300)
 
     st.markdown("""
         <style>
