@@ -144,20 +144,12 @@ def main():
 
     st.markdown("## Enter your essay below to predict its score.")
 
-    st.markdown("""
-        <style>
-        .stButton>button:hover {
-            color: #ffffff;
-            background-color: #ff6347;
-            transform: scale(1.05);
-        }
-        </style>
-        """, unsafe_allow_html=True)
-    
+    user_essay = st.text_area("Paste your essay here:", height=300)
+
     if st.button("Predict Score"):
-        predicted_score = predict_score(extracted_text)
+        predicted_score = predict_score(user_essay)
         st.success(f"The predicted score for the essay is: {predicted_score} out of 10.")
-        prompt = f"Justify rating the essay '{extracted_text}' as {predicted_score} out of 10 and discuss its highs and lows and the justification behind marking it as such. Also suggest improvements in the end which could possibly address the issues with the essay."
+        prompt = f"Justify rating the essay '{user_essay}' as {predicted_score} out of 10 and discuss its highs and lows and the justification behind marking it as such. Also suggest improvements in the end which could possibly address the issues with the essay."
         response = model.generate_content(prompt)
         analysis_text = response.text
 
