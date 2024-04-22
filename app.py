@@ -28,6 +28,10 @@ api_key = 'GEMINI_API_KEY'
 genai.configure(api_key=api_key)
 model = genai.GenerativeModel('gemini-pro')
 
+def perform_ocr(image):
+    extracted_text = pytesseract.image_to_string(image)
+    return extracted_text
+ 
 def get_model1():
     input_layer = Input(shape=[1, 600])
     bn_input = BatchNormalization()(input_layer)
