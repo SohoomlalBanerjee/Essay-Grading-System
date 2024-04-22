@@ -5,10 +5,7 @@ This project, titled "Essay Grading with LSTM Model," is a machine learning appl
 
 ## Demo
 
-<div style="text-align:center">
-  [![Demo Video](https://img.youtube.com/vi/-I5Yo4-MNGI/0.jpg)](https://youtu.be/-I5Yo4-MNGI)
-</div>
-
+[![Demo Video](https://img.youtube.com/vi/-I5Yo4-MNGI/0.jpg)](https://youtu.be/-I5Yo4-MNGI)
 
 ## Credits
 This project was developed by Archisman Ray, Soumedhik Bharati, and Sohoom Lal Banerjee for the SIT Hackathon. It was created as part of an effort to automate the grading process of essays using machine learning techniques.
