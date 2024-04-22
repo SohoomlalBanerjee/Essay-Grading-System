@@ -171,7 +171,7 @@ def main():
     if st.button("Predict Score"):
         predicted_score = predict_score(extracted_text)
         st.success(f"The predicted score for the essay is: {predicted_score} out of 10.")
-        prompt = f"Justify rating the essay '{extracted_text}' as {predicted_score} out of 10 and discuss its highs and lows and the justification behind marking it as such."
+        prompt = f"Justify rating the essay '{extracted_text}' as {predicted_score} out of 10 and discuss its highs and lows and the justification behind marking it as such. Also suggest improvements in the end which could possibly address the issues with the essay."
         response = model.generate_content(prompt)
         analysis_text = response.text
 
