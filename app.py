@@ -126,6 +126,12 @@ def main():
 
     st.markdown("""
         <style>
+        .subheader-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
         .subheader {
             opacity: 0;
             animation: fade-in 1s forwards;
@@ -134,7 +140,10 @@ def main():
             100% { opacity: 1; }
         }
         </style>
-        <h3 class="subheader">Develop an AI model that not only grades essays but also elucidates the score.</h3>
+        <div class="subheader-container">
+            <h3 class="subheader">Develop an AI model that not only grades essays but also elucidates the score.</h3>
+            <h3 class="subheader">-By Sohoom Lal Banerjee, Soumedhik Bharati and Archisman Ray.</h3>
+        </div>
         """, unsafe_allow_html=True)
 
     st.markdown("## Enter your essay below to predict its score.")
