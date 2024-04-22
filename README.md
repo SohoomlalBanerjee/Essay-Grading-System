@@ -5,7 +5,9 @@ This project, titled "Essay Grading with LSTM Model," is a machine learning appl
 
 ## Demo
 
-[![Demo Video](https://img.youtube.com/vi/-I5Yo4-MNGI/0.jpg)](https://youtu.be/-I5Yo4-MNGI)
+<div style="text-align:center">
+  [![Demo Video](https://img.youtube.com/vi/-I5Yo4-MNGI/0.jpg)](https://youtu.be/-I5Yo4-MNGI)
+</div>
 
 
 ## Credits
