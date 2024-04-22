@@ -28,22 +28,6 @@ api_key = st.secrets["GEMINI_API_KEY"]
 genai.configure(api_key=api_key)
 model = genai.GenerativeModel('gemini-pro')
 
-def get_model1():
-    input_layer = Input(shape=[1, 600])
-    bn_input = BatchNormalization()(input_layer)
-    lstm1 = Bidirectional(LSTM(1024, dropout=0.3, recurrent_dropout=0.3, return_sequences=True, kernel_regularizer=l2(0.001)))(bn_input)
-    lstm2 = Bidirectional(LSTM(512, dropout=0.3, recurrent_dropout=0.3, return_sequences=True, kernel_regularizer=l2(0.001)))(lstm1)
-    lstm3 = Bidirectional(LSTM(256, dropout=0.3, recurrent_dropout=0.3, return_sequences=True, kernel_regularizer=l2(0.001)))(lstm2)
-    attention = Attention()([lstm3, lstm3])
-    dropout = Dropout(0.6)(attention)
-    dense1 = Dense(64, activation='relu', kernel_regularizer=l2(0.001))(dropout)
-    dropout2 = Dropout(0.6)(dense1)
-    output_layer = Dense(11, activation='softmax')(dropout2)
-    model = Model(inputs=input_layer, outputs=output_layer)
-    optimizer = tf.keras.optimizers.RMSprop(learning_rate=0.001)
-    model.compile(loss='sparse_categorical_crossentropy', optimizer=optimizer, metrics=['accuracy'])
-    return model
-
 def get_model2():
     model = Sequential()
     model.add(BatchNormalization(input_shape=[1, 600]))
@@ -58,11 +42,8 @@ def get_model2():
     model.compile(loss='sparse_categorical_crossentropy', optimizer=optimizer, metrics=['accuracy'])
     return model
 
-lstm_model1 = get_model1()
-lstm_model1.load_weights("essay_rank_lstm_1.keras")
-
 lstm_model2 = get_model2()
-lstm_model2.load_weights("essay_rank_lstm_2.keras")
+lstm_model2.load_weights("Streamlit_Model/essay_rank_lstm_2.keras")
 
 w2v_path = 'word2vecmodel.bin'
 word2vec_model = KeyedVectors.load(w2v_path, mmap='r')
