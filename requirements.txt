@@ -3,3 +3,5 @@ streamlit
 gensim
 tensorflow
 keras
+pytesseract
+tesseract-ocr
