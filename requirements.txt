@@ -7,5 +7,6 @@ Pillow
 pytesseract
 scipy==1.10.1
 nltk
-tesseract-ocr
-leptonica
+#tesseract-ocr
+#leptonica
+#Above 2 are commented out as tesseract-ocr and leptonica is not supported by Streamlit.
