@@ -3,6 +3,11 @@
 ## Summary
 This project, titled "Essay Grading with LSTM Model," is a machine learning application that predicts the grade of an essay using a Long Short-Term Memory (LSTM) model trained on Word2Vec embeddings. Users input an essay, which undergoes preprocessing to remove stopwords, lemmatize words, and convert them to vectors. These vectors are then fed into the LSTM model, which predicts the essay grade.
 
+## Demo
+
+[![Demo Video](https://img.youtube.com/vi/-I5Yo4-MNGI/0.jpg)](https://youtu.be/-I5Yo4-MNGI)
+
+
 ## Credits
 This project was developed by Archisman Ray, Soumedhik Bharati, and Sohoom Lal Banerjee for the SIT Hackathon. It was created as part of an effort to automate the grading process of essays using machine learning techniques.
 
