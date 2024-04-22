@@ -1,21 +1,30 @@
 import streamlit as st
 import numpy as np
 import re
-from nltk.corpus import stopwords
-from nltk.tokenize import word_tokenize
 from gensim.models import KeyedVectors
 from keras.models import Sequential, load_model, Model
-from keras.layers import Input, LSTM, Dense, Dropout, Bidirectional, TimeDistributed, Attention, BatchNormalization
+from keras.layers import Input, LSTM, Dense, Dropout, Bidirectional, BatchNormalization
+from keras.layers import Attention
 from keras.regularizers import l2
 import tensorflow as tf
+import google.generativeai as genai
 import pathlib
 import textwrap
-import google.generativeai as genai
-from google.colab import userdata
-from IPython.display import display, Markdown
-from google.colab import userdata
+import pytesseract
+import shutil
+import os
+import random
+try:
+ from PIL import Image
+except ImportError:
+ import Image
+import nltk
+nltk.download('punkt')
+nltk.download('stopwords')
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
 
-api_key = userdata.get('GEMINI_API_KEY')
+api_key = 'GEMINI_API_KEY'  
 genai.configure(api_key=api_key)
 model = genai.GenerativeModel('gemini-pro')
 
@@ -50,13 +59,17 @@ def get_model2():
     return model
 
 lstm_model1 = get_model1()
-lstm_model1.load_weights("/content/essay_rank_lstm_1.keras")
+lstm_model1.load_weights("essay_rank_lstm_1.keras")
 
 lstm_model2 = get_model2()
-lstm_model2.load_weights("/content/essay_rank_lstm_2.keras")
+lstm_model2.load_weights("essay_rank_lstm_2.keras")
 
-w2v_path = '/content/word2vecmodel.bin'
+w2v_path = 'word2vecmodel.bin'
 word2vec_model = KeyedVectors.load(w2v_path, mmap='r')
+
+def perform_ocr(image):
+    extracted_text = pytesseract.image_to_string(image)
+    return extracted_text
 
 def essay_to_vector(essay, model):
     stop_words = set(stopwords.words('english'))
@@ -79,23 +92,86 @@ def reshape_for_lstm(vector):
 def predict_score(essay):
     vector = essay_to_vector(essay, word2vec_model)
     vector = reshape_for_lstm(vector)
-    prediction = (lstm_model1.predict(vector)+lstm_model2.predict(vector))/2
+    prediction = lstm_model2.predict(vector)
     score = np.argmax(prediction)
-    return score
+    bias = 2
+    adjusted_score = score + bias
+    adjusted_score = min(adjusted_score, 10)
+    return adjusted_score
 
 def main():
-    st.title("Essay Score Predictor")
-    st.write("Enter your essay below to predict its score.")
+    st.set_page_config(page_title="Essay Score Predictor", page_icon="📝")
 
-    user_essay = st.text_area("Essay")
+    st.markdown("""
+        <style>
+        .title {
+            color: #ff6347;
+            animation: color-change 2s infinite;
+            text-align: center;
+        }
+        @keyframes color-change {
+            0% { color: #ff6347; }
+            50% { color: #4682b4; }
+            100% { color: #ff6347; }
+        }
+        </style>
+        <h1 class="title">SIT Hackathon '24 Project</h1>
+        """, unsafe_allow_html=True)
+
+    st.markdown("""
+        <h2 style='text-align: center; color: #2e8b57;'>
+        "Unveiling the Art of Automated Essay Grading: AI's Journey to Explainability"
+        </h2>
+        """, unsafe_allow_html=True)
+
+    st.markdown("""
+        <style>
+        .subheader {
+            opacity: 0;
+            animation: fade-in 1s forwards;
+        }
+        @keyframes fade-in {
+            100% { opacity: 1; }
+        }
+        </style>
+        <h3 class="subheader">Develop an AI model that not only grades essays but also elucidates the score.</h3>
+        """, unsafe_allow_html=True)
+
+    st.markdown("## Enter your essay below to predict its score.")
+
+    uploaded_file = st.file_uploader("Upload an image", type=["png", "jpg", "jpeg"])
+    user_essay = st.text_area("Essay:", height=300)
+
+    if uploaded_file is not None:
+        image = Image.open(uploaded_file)
+        st.image(image, caption='Uploaded Image', use_column_width=True)
+        extracted_text = perform_ocr(image)
+    else:
+        extracted_text = user_essay
+
+    st.markdown("""
+        <style>
+        .stButton>button:hover {
+            color: #ffffff;
+            background-color: #ff6347;
+            transform: scale(1.05);
+        }
+        </style>
+        """, unsafe_allow_html=True)
     
     if st.button("Predict Score"):
-        predicted_score = predict_score(user_essay)
-        st.write(f"The predicted score for the essay is: {predicted_score}")
-        prompt = f"Justify rating the essay {user_essay} as {predicted_score} out of 10 and discuss its highs and lows and the justification behind marking it as such."
+        predicted_score = predict_score(extracted_text)
+        st.success(f"The predicted score for the essay is: {predicted_score} out of 10.")
+        prompt = f"Justify rating the essay '{extracted_text}' as {predicted_score} out of 10 and discuss its highs and lows and the justification behind marking it as such."
         response = model.generate_content(prompt)
         analysis_text = response.text
-        st.write(f"Explanation: {analysis_text}") 
+
+        st.markdown(f"""
+            <div class="explanation">
+            <h4>Explanation:</h4>
+            {analysis_text}
+            </div>
+            """, unsafe_allow_html=True)
 
 if __name__ == "__main__":
     main()
