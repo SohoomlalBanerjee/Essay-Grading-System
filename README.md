@@ -17,6 +17,11 @@ Check out the live demo of the Essay Grading System using Streamlit:
 ## Credits
 This project was developed by Archisman Ray, Soumedhik Bharati, and Sohoom Lal Banerjee for the SIT Hackathon. It was created as part of an effort to automate the grading process of essays using machine learning techniques.
 
+## Model Links
+The Google Drive for the two models are below. (>230 MB combined)
+Model 1 - https://drive.google.com/file/d/1ihOKoAG2R1AJOXjW37ZRyU8n7nxbEJsB/view?usp=drive_link
+Model 2 - https://drive.google.com/file/d/1mTazjmGrvgMqb5lsZegUJwj45U8DlpWC/view?usp=drive_link
+
 ## Installation
 To run the application locally, follow these steps:
 1. Clone the repository:
