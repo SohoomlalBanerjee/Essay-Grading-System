@@ -71,10 +71,7 @@ def predict_score(essay):
     vector = reshape_for_lstm(vector)
     prediction = lstm_model2.predict(vector)
     score = np.argmax(prediction)
-    if (score<6):
-     bias = 2
-    else:
-     bias = 1 
+    bias=1
     adjusted_score = score + bias
     adjusted_score = min(adjusted_score, 10)
     return adjusted_score
